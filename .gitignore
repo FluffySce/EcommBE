@@ -1,0 +1,41 @@
+# === Node / npm / pnpm / yarn ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# === Environment variables ===
+.env
+.env.*
+!.env.example
+
+# === Vite / React build output ===
+dist/
+dist-ssr/
+.vite/
+
+# === Express / Node build output ===
+build/
+coverage/
+
+# === Logs ===
+logs/
+*.log
+
+# === OS junk ===
+.DS_Store
+Thumbs.db
+
+# === Editor / IDE ===
+.vscode/
+.idea/
+*.swp
+
+# === Optional cache folders ===
+.cache/
+.eslintcache
+
+# === Temporary files ===
+tmp/
+temp/

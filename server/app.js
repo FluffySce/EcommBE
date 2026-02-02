@@ -9,6 +9,9 @@ app.use(express.static(path.join(path.resolve(), "public")));
 app.use(express.json());
 app.use(cors());
 
+//parsing form data
+app.use(express.urlencoded({ extended: true }));
+
 //seting up EJS
 app.set("view engine", "ejs");
 app.set("views", path.join(path.resolve(), "views"));

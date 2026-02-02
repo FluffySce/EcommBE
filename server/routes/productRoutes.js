@@ -12,10 +12,16 @@ router.get("/view", async (req, res) => {
   }
 });
 
-// Existing API endpoints
-router.post("/add", async (req, res) => {
+//show new product form
+router.get("/new", (req, res) => {
+  res.render("products/new");
+});
+
+//adding new products
+router.post("/new", async (req, res) => {
   try {
-    const { name, dateCreated, warranty, price, isAvailable } = req.body;
+    const { name, dateCreated, warranty, price } = req.body;
+    const isAvailable = req.body.isAvailable === "on";
     const product = new Product({
       name,
       dateCreated,
@@ -24,9 +30,9 @@ router.post("/add", async (req, res) => {
       isAvailable,
     });
     await product.save();
-    res.status(201).send(product);
+    res.redirect("/products/view");
   } catch (err) {
-    res.status(400).send(err);
+    res.status(400).send("Error adding product");
   }
 });
 

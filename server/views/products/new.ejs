@@ -1,0 +1,25 @@
+<!-- filepath: d:\Uni\Sharda\Sem 6\microservices\Ecommerce\server\views\products\new.ejs -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Add New Product</title>
+  </head>
+  <body>
+    <h1>Add New Product</h1>
+    <form action="/products/new" method="POST">
+      <label>Name: <input type="text" name="name" required /></label><br />
+      <label
+        >Date Created: <input type="date" name="dateCreated" required /></label
+      ><br />
+      <label
+        >Warranty (months):
+        <input type="number" name="warranty" required /></label
+      ><br />
+      <label>Price: <input type="number" name="price" required /></label><br />
+      <label>Available: <input type="checkbox" name="isAvailable" /></label
+      ><br />
+      <button type="submit">Add Product</button>
+    </form>
+    <a href="/products/view">Back to Product List</a>
+  </body>
+</html>

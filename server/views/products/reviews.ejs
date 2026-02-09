@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reviews for <%= product.name %></title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .review {
+        border-bottom: 1px solid #eee;
+        padding: 1em 0;
+      }
+      .reply {
+        margin-left: 2em;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Reviews for <%= product.name %></h1>
+    <a href="/products/view">Back to Products</a>
+
+    <h2>Add a Review</h2>
+    <form action="/reviews/<%= product._id %>" method="POST">
+      <textarea
+        name="text"
+        required
+        rows="3"
+        cols="40"
+        placeholder="Write your review..."
+      ></textarea
+      ><br />
+      <button type="submit">Submit Review</button>
+    </form>
+
+    <h2>All Reviews</h2>
+    <% if (reviews.length === 0) { %>
+    <p>No reviews yet.</p>
+    <% } %> <% reviews.forEach(function(review) { %>
+    <div class="review">
+      <p><%= review.text %></p>
+      <form
+        action="/reviews/<%= review._id %>?_method=PATCH"
+        method="POST"
+        style="display: inline"
+      >
+        <input type="hidden" name="like" value="1" />
+        <button type="submit">
+          <i class="fas fa-thumbs-up"></i> <%= review.likes %>
+        </button>
+      </form>
+      <form
+        action="/reviews/<%= review._id %>?_method=PATCH"
+        method="POST"
+        style="display: inline"
+      >
+        <input type="text" name="reply" placeholder="Reply..." required />
+        <button type="submit">Reply</button>
+      </form>
+      <% if (review.replies && review.replies.length > 0) { %>
+      <div>
+        <strong>Replies:</strong>
+        <% review.replies.forEach(function(reply) { %>
+        <div class="reply"><%= reply.text %></div>
+        <% }); %>
+      </div>
+      <% } %>
+    </div>
+    <% }); %>
+  </body>
+</html>

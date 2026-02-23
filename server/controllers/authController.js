@@ -1,5 +1,5 @@
-import User from "../models/userModel";
-import jwt from "jsonwebtoken";
+import User from "../models/userModel.js";
+import passport from "passport";
 
 export const register = async (req, res) => {
   const { username, password, role } = req.body;
@@ -10,28 +10,35 @@ export const register = async (req, res) => {
       role,
     });
     await user.save();
-    res.status(201).json({ message: "User registered successfully" });
+    req.flash("success", "Registration successful! Please login.");
+    res.redirect("/auth/login");
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "Error registering user", error: err.message });
+    req.flash("error", "Error registering user: " + error.message);
+    res.redirect("/auth/register");
   }
 };
 
-export const login = async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const user = await User.findOne({ username });
-    if (!user || !(await user.checkPassword(password))) {
-      return res.status(401).json({ message: "Invalid credentials" });
+export const login = passport.authenticate("local", {
+  successRedirect: "/products/view",
+  failureRedirect: "/auth/login",
+  failureFlash: true,
+});
+
+export const logout = (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      req.flash("error", "Error logging out");
+      return res.redirect("/products/view");
     }
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
-    res.json({ token });
-  } catch (error) {
-    res.status(500).json({ message: "Login error", error: err.message });
-  }
+    req.flash("success", "Logged out successfully");
+    res.redirect("/auth/login");
+  });
+};
+
+export const renderLogin = (req, res) => {
+  res.render("auth/login");
+};
+
+export const renderRegister = (req, res) => {
+  res.render("auth/register");
 };

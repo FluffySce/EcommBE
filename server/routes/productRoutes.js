@@ -1,5 +1,6 @@
 import express from "express";
 import Product from "../models/productModel.js";
+import Review from "../models/reviewModel.js";
 const router = express.Router();
 
 // Render EJS product list
@@ -36,6 +37,17 @@ router.post("/new", async (req, res) => {
   }
 });
 
+// View a single product by ID
+router.get("/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).send("Product not found");
+    res.render("products/view", { product });
+  } catch (err) {
+    res.status(500).send("Error loading product");
+  }
+});
+
 //edit form rende
 router.get("/:id/edit", async (req, res) => {
   try {
@@ -63,6 +75,18 @@ router.patch("/:id", async (req, res) => {
     res.redirect("/products/view");
   } catch (err) {
     res.status(400).send("Error updating product");
+  }
+});
+
+// Render reviews page for a product
+router.get("/:id/reviews", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).send("Product not found");
+    const reviews = await Review.find({ product: product._id });
+    res.render("products/reviews", { product, reviews });
+  } catch (err) {
+    res.status(500).send("Error loading reviews");
   }
 });
 

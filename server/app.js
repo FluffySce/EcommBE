@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import productRoutes from "./routes/productRoutes.js";
+import reviewRoutes from "./routes/reviewRoutes.js";
 import path from "path";
 
 const app = express();
@@ -19,7 +20,10 @@ app.set("views", path.join(path.resolve(), "views"));
 app.get("/", (req, res) => {
   res.send("Ecommerce server is running");
 });
-
+//product related routes
 app.use("/products", productRoutes);
+
+//reviews related
+app.use("/reviews", reviewRoutes);
 
 export default app;

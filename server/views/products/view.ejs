@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= product.name %> - Product Details</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .container {
+        max-width: 600px;
+        margin: 2em auto;
+        padding: 2em;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px #eee;
+      }
+      .title {
+        font-size: 2em;
+        font-weight: bold;
+        margin-bottom: 0.5em;
+      }
+      .price {
+        color: #16a34a;
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+      .meta {
+        color: #555;
+        margin-bottom: 1em;
+      }
+      .desc {
+        margin-bottom: 1.5em;
+      }
+      .btn {
+        display: inline-block;
+        margin-right: 1em;
+        padding: 0.5em 1.2em;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .btn-reviews {
+        background: #facc15;
+        color: #222;
+      }
+      .btn-back {
+        background: #3b82f6;
+        color: #fff;
+      }
+      .status {
+        font-size: 1em;
+        font-weight: 600;
+        margin-bottom: 1em;
+      }
+      .status.in {
+        color: #16a34a;
+      }
+      .status.out {
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title"><%= product.name %></div>
+      <div class="meta">
+        <i class="fas fa-calendar-alt"></i>
+        Added: <%= product.dateCreated ? product.dateCreated.toDateString() :
+        "N/A" %>
+        <br />
+        <i class="fas fa-shield-alt"></i>
+        Warranty: <%= product.warranty %> months
+      </div>
+      <div class="price">₹<%= product.price %></div>
+      <div class="status <%= product.isAvailable ? 'in' : 'out' %>">
+        <i class="fas fa-check-circle"></i>
+        <%= product.isAvailable ? "In Stock" : "Out of Stock" %>
+      </div>
+      <div class="desc">
+        <strong>Description:</strong><br />
+        <%= product.description || "No description provided." %>
+      </div>
+      <a href="/products/<%= product._id %>/reviews" class="btn btn-reviews">
+        <i class="fas fa-star"></i> Reviews
+      </a>
+      <a href="/products/view" class="btn btn-back">
+        <i class="fas fa-arrow-left"></i> Back to Products
+      </a>
+    </div>
+  </body>
+</html>
